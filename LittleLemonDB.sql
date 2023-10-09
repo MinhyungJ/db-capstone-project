@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Customer` (
   `County` VARCHAR(45) NULL,
   `Postal_Code` VARCHAR(45) NULL,
   `Country_Code` VARCHAR(45) NULL,
+  `Contact` VARCHAR(45) NULL,
   PRIMARY KEY (`CustomerID`))
 ENGINE = InnoDB;
 
@@ -187,9 +188,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `LittleLemonDB`;
-INSERT INTO `LittleLemonDB`.`Customer` (`CustomerID`, `Customer_name`, `City`, `County`, `Postal_Code`, `Country_Code`) VALUES (1, 'Jim Beam', 'Tallahassee', 'leon', '32333', 'US');
-INSERT INTO `LittleLemonDB`.`Customer` (`CustomerID`, `Customer_name`, `City`, `County`, `Postal_Code`, `Country_Code`) VALUES (2, 'Minsung Kim', 'Seoul', 'Gangnam', '08182', 'KR');
-INSERT INTO `LittleLemonDB`.`Customer` (`CustomerID`, `Customer_name`, `City`, `County`, `Postal_Code`, `Country_Code`) VALUES (3, 'Misaki Ogura', 'Tokyo', 'Kimi', '56456', 'JP');
+INSERT INTO `LittleLemonDB`.`Customer` (`CustomerID`, `Customer_name`, `City`, `County`, `Postal_Code`, `Country_Code`, `Contact`) VALUES (1, 'Jim Beam', 'Tallahassee', 'leon', '32333', 'US', '850-985-7989');
+INSERT INTO `LittleLemonDB`.`Customer` (`CustomerID`, `Customer_name`, `City`, `County`, `Postal_Code`, `Country_Code`, `Contact`) VALUES (2, 'Minsung Kim', 'Seoul', 'Gangnam', '08182', 'KR', '02-789-9998');
+INSERT INTO `LittleLemonDB`.`Customer` (`CustomerID`, `Customer_name`, `City`, `County`, `Postal_Code`, `Country_Code`, `Contact`) VALUES (3, 'Misaki Ogura', 'Tokyo', 'Kimi', '56456', 'JP', '206-989-9995');
 
 COMMIT;
 
