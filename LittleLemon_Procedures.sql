@@ -1,3 +1,5 @@
+use LittleLemonDB;
+
 ## Procedure -- Max Quantity
 DROP PROCEDURE IF EXISTS GetMaxQuantity;
 DELIMITER //
@@ -29,10 +31,10 @@ DELIMITER ;
 CALL CancelOrder (2);
 
 
-## Procedure -- Booking check
-DROP PROCEDURE IF EXISTS CheckBooking;
+## Procedure -- Manage bookings
+DROP PROCEDURE IF EXISTS ManageBooking;
 DELIMITER //
-CREATE PROCEDURE CheckBooking (IN booking_date DATE, IN table_num INT)
+CREATE PROCEDURE ManageBooking (IN booking_date DATE, IN table_num INT)
 	BEGIN
     DECLARE booking_count INT;
     DECLARE booking_status VARCHAR(255);
@@ -40,12 +42,31 @@ CREATE PROCEDURE CheckBooking (IN booking_date DATE, IN table_num INT)
     WHERE Table_number = table_num AND Booking_Date = booking_date;
     
     IF booking_count > 0 THEN
-		SET booking_status = CONCAT('Table', " "table_num, '  is already assigned.');
+		SET booking_status = CONCAT('Table', " ", table_num, '  is already assigned.');
         SELECT booking_status;
 	END IF;
 END//
 DELIMITER ;
-Call CheckBooking ("2023-11-11", 5);
+Call ManageBooking ("2023-10-02", 1);
+
+SELECT * FROM Bookings;
+
+## Procedure -- Update booking
+DROP PROCEDURE IF EXISTS UpdateBooking;
+DELIMITER //
+CREATE PROCEDURE UpdateBooking (IN booking_id INT, IN booking_date DATE)
+BEGIN
+	DECLARE Confirmation VARCHAR(255);
+    UPDATE Bookings
+    SET Booking_Date = booking_date
+    WHERE BookingsID = booking_id;
+    
+    SET Confirmation = CONCAT("Booking", booking_id, "  updated.");
+    SELECT Confirmation;
+END//
+DELIMITER ;
+CALL UpdateBOoking(1, "2021-01-11");
+
 
 ## Procedure -- Add valid bookings
 DROP PROCEDURE IF EXISTS AddValidBooking;
@@ -74,22 +95,6 @@ DELIMITER ;
 
 CALL AddValidBooking(5, 1, "2021-11-12", 4);
 SELECT * FROM Bookings;
-
-## Procedure -- Update booking
-DROP PROCEDURE IF EXISTS UpdateBooking;
-DELIMITER //
-CREATE PROCEDURE UpdateBooking (IN booking_id INT, IN booking_date DATE)
-BEGIN
-	DECLARE Confirmation VARCHAR(255);
-    UPDATE Bookings
-    SET Booking_Date = booking_date
-    WHERE BookingsID = booking_id;
-    
-    SET Confirmation = CONCAT("Booking", booking_id, "  updated.");
-    SELECT Confirmation;
-END//
-DELIMITER ;
-CALL UpdateBOoking(1, "2021-01-11");
 
 
 ## Procedure -- Cancel booking
