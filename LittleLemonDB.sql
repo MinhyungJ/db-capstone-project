@@ -95,26 +95,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `LittleLemonDB`.`Order_delivery_status`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `LittleLemonDB`.`Order_delivery_status` ;
-
-CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Order_delivery_status` (
-  `OrderID` INT NOT NULL,
-  `Delivery_Date` DATE NULL,
-  `Delivery_Status` VARCHAR(45) NULL,
-  `Delivery_Cost` INT NULL,
-  PRIMARY KEY (`OrderID`),
-  INDEX `fk_Order_delivery_status_Orders1_idx` (`OrderID` ASC) VISIBLE,
-  CONSTRAINT `fk_Order_delivery_status_Orders1`
-    FOREIGN KEY (`OrderID`)
-    REFERENCES `LittleLemonDB`.`Orders` (`OrderID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Employees`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `LittleLemonDB`.`Employees` ;
@@ -129,24 +109,44 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `LittleLemonDB`.`Order_delivery_status`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`Order_delivery_status` ;
+
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Order_delivery_status` (
+  `OrderID` INT NOT NULL,
+  `Delivery_Date` DATE NULL,
+  `Delivery_Status` VARCHAR(45) NULL,
+  `Delivery_Cost` INT NULL,
+  `EmployeeID` INT NULL,
+  PRIMARY KEY (`OrderID`),
+  INDEX `fk_Order_delivery_status_Orders1_idx` (`OrderID` ASC) VISIBLE,
+  INDEX `fk_Order_delivery_status_Employees1_idx` (`EmployeeID` ASC) VISIBLE,
+  CONSTRAINT `fk_Order_delivery_status_Orders1`
+    FOREIGN KEY (`OrderID`)
+    REFERENCES `LittleLemonDB`.`Orders` (`OrderID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Order_delivery_status_Employees1`
+    FOREIGN KEY (`EmployeeID`)
+    REFERENCES `LittleLemonDB`.`Employees` (`EmployeeID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Bookings`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `LittleLemonDB`.`Bookings` ;
 
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Bookings` (
   `BookingsID` INT NOT NULL,
-  `EmployeeID` INT NOT NULL,
   `CustomerID` INT NOT NULL,
   `Table_number` INT NULL,
   `Booking_Date` DATE NULL,
-  PRIMARY KEY (`BookingsID`, `EmployeeID`, `CustomerID`),
-  INDEX `fk_Bookings_Employees1_idx` (`EmployeeID` ASC) VISIBLE,
+  PRIMARY KEY (`BookingsID`, `CustomerID`),
   INDEX `fk_Bookings_Customer1_idx` (`CustomerID` ASC) VISIBLE,
-  CONSTRAINT `fk_Bookings_Employees1`
-    FOREIGN KEY (`EmployeeID`)
-    REFERENCES `LittleLemonDB`.`Employees` (`EmployeeID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Bookings_Customer1`
     FOREIGN KEY (`CustomerID`)
     REFERENCES `LittleLemonDB`.`Customer` (`CustomerID`)
@@ -206,16 +206,6 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `LittleLemonDB`.`Order_delivery_status`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `LittleLemonDB`;
-INSERT INTO `LittleLemonDB`.`Order_delivery_status` (`OrderID`, `Delivery_Date`, `Delivery_Status`, `Delivery_Cost`) VALUES (1, '2023-10-07', 'Pending', 15);
-
-COMMIT;
-
-
--- -----------------------------------------------------
 -- Data for table `LittleLemonDB`.`Employees`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -228,11 +218,21 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `LittleLemonDB`.`Order_delivery_status`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `LittleLemonDB`;
+INSERT INTO `LittleLemonDB`.`Order_delivery_status` (`OrderID`, `Delivery_Date`, `Delivery_Status`, `Delivery_Cost`, `EmployeeID`) VALUES (1, '2023-10-07', 'Pending', 15, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `LittleLemonDB`.`Bookings`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `LittleLemonDB`;
-INSERT INTO `LittleLemonDB`.`Bookings` (`BookingsID`, `EmployeeID`, `CustomerID`, `Table_number`, `Booking_Date`) VALUES (1, 1, 1, 1, '2023-10-02');
+INSERT INTO `LittleLemonDB`.`Bookings` (`BookingsID`, `CustomerID`, `Table_number`, `Booking_Date`) VALUES (1, 1, 1, '2023-10-02');
 
 COMMIT;
 
