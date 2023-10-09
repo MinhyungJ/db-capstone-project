@@ -12,7 +12,7 @@ LEFT JOIN MenuItems AS M ON M.MenuItemsID = O.MenuItemsID;
 SELECT OrderID FROM Orders
 WHERE Quantity >= ANY (SELECT Quantity FROM Orders WHERE Quantity = 1);
 
-## Insert records to the Bookings Table
+## Insert records to the Bookings Table: Practice
 SELECT * FROM Bookings;
 INSERT INTO Bookings (BookingsID, CustomerID, Table_number, Booking_Date)
 VALUES 
