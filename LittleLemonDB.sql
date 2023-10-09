@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`MenuItems` (
   `Desert_Name` VARCHAR(45) NULL,
   `Drink` VARCHAR(45) NULL,
   `Sides` VARCHAR(45) NULL,
-  `MenuID` INT NULL,
+  `MenuID` INT NOT NULL,
   PRIMARY KEY (`MenuItemsID`),
   INDEX `fk_MenuItems_Menus1_idx` (`MenuID` ASC) VISIBLE,
   CONSTRAINT `fk_MenuItems_Menus1`
