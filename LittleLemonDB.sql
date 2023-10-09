@@ -141,11 +141,11 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `LittleLemonDB`.`Bookings` ;
 
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Bookings` (
-  `BookingsID` INT NOT NULL,
-  `CustomerID` INT NOT NULL,
+  `BookingsID` INT NOT NULL AUTO_INCREMENT,
+  `CustomerID` INT NULL,
   `Table_number` INT NULL,
   `Booking_Date` DATE NULL,
-  PRIMARY KEY (`BookingsID`, `CustomerID`),
+  PRIMARY KEY (`BookingsID`),
   INDEX `fk_Bookings_Customer1_idx` (`CustomerID` ASC) VISIBLE,
   CONSTRAINT `fk_Bookings_Customer1`
     FOREIGN KEY (`CustomerID`)

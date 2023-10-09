@@ -1,10 +1,10 @@
-
-## Virtual Table -- Orders
+use littlelemondb;
+## Virtual Table 1 -- Orders
 CREATE VIEW OrdersView AS SELECT OrderID, Quantity, Cost FROM Orders;
 SELECT * FROM OrdersView;
 
-## Statements -- JOINS
-SELECT C.CustomerID, C.Customer_name, M.Course_Name, o.Cost, o.OrderID  FROM Customer AS C
+## Virtual Table 2 -- JOINS
+CREATE VIEW OrderSummary AS SELECT C.CustomerID, C.Customer_name, M.Course_Name, o.Cost, o.OrderID  FROM Customer AS C
 LEFT JOIN Orders AS O ON O.CustomerID = C.CustomerID
 LEFT JOIN MenuItems AS M ON M.MenuItemsID = O.MenuItemsID;
 
@@ -12,30 +12,11 @@ LEFT JOIN MenuItems AS M ON M.MenuItemsID = O.MenuItemsID;
 SELECT OrderID FROM Orders
 WHERE Quantity >= ANY (SELECT Quantity FROM Orders WHERE Quantity = 1);
 
-## Procedure -- Max Quantity
-DELIMITER //
-CREATE PROCEDURE GetMaxQuantity_1()
-BEGIN
-SELECT MAX(Quantity) FROM Orders;
-END //
-DELIMITER ;
-
-CALL GetMaxQuantity_1();
-
-## Procedure -- Order Detail
-PREPARE GetOrderDetail FROM 'SELECT OrderID, Quantity, Cost FROM Orders WHERE CustomerID = ?';
-SET @id =3;
-EXECUTE GetOrderDetail USING @id;
-
-
-## Procedure -- Cancel Order
-DELIMITER //
-CREATE PROCEDURE CancelOrder (id INT)
-	BEGIN
-		DECLARE message VARCHAR(255);
-        DELETE FROM Orders WHERE OrderID = id;
-        SET message = CONCAT("Order", id, "is cancelled");
-	SELECT message;
-END//
-DELIMITER ;
-CALL CancelOrder (2);
+## Insert records to the Bookings Table
+SELECT * FROM Bookings;
+INSERT INTO Bookings (BookingsID, CustomerID, Table_number, Booking_Date)
+VALUES 
+(2, 1, 5, "2023-11-11"),
+(3, 3, 3, "2023-07-11"),
+(4, 2, 4, "2023-09-11"),
+(5, 1, 1, "2023-10-11"); 
